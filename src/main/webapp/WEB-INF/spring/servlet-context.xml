@@ -42,7 +42,7 @@
 
     <!--Upload file maxSize = 5 Mb-->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-        <property name="maxUploadSize" value="5242880" />
+        <!--<property name="maxUploadSize" value="5242880" />-->
         <!--<property name="resolveLazily" value="true"/>-->
     </bean>
 
@@ -50,7 +50,7 @@
     <!--<import resource="jasper-views.xml"/>-->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.postgresql.Driver"/>
-        <property name="url" value="jdbc:postgresql://localhost:5432/datascope"/>
+        <property name="url" value="jdbc:postgresql://localhost:5432/datadaseName"/>
         <property name="username" value="postgres"/>
         <property name="password" value="postgres"/>
     </bean>
