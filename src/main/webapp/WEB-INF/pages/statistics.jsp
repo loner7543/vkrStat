@@ -11,11 +11,10 @@
 <html>
 <head>
     <title>Статистика</title>
-    <script
-            src="http://code.jquery.com/jquery-3.2.1.min.js"
-            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-            crossorigin="anonymous"></script>
-    <script type="text/javascript" src="<c:url value="/js/statistics.js"/>"></script>
+    <script type="text/javascript" src="<c:url value="/js/jquery-2.1.4.min.js"/>"></script>
+    <script type="text/javascript" src="<c:url value="/js/bootstrap.min.js"/>"></script>
+    <link rel="stylesheet" href="<c:url value="/css/bootstrap.min.css"/> ">
+    <link rel="stylesheet" href="<c:url value="/css/bootstrap-theme.min.css"/> ">
 </head>
 <body>
 
@@ -31,12 +30,40 @@
     <label id="dov">Доверительный интервал: </label><br>
     <label id="PinPoint">Погрешность в точке: </label><br>
     <label id="opt">Ближайший к оптимальному профиль:</label><br>
-</div>
-</body>
+    <ul id="fileNamesList">
 
+    </ul>
+</div><br>
+<input type="button" value="Рассчет профиля" onclick="calculateProfile()" class="btn-danger">
 <script>
-    var url = "save"
-    var getStstUrl = "calculate"
+    var url = "save";
+    var getStstUrl = "calculate";
+    var calcProfileURL = "calculateProfile";
+
+    function sendToServer() {
+        var data = new FormData();
+        var formFiles = document.getElementById("my_file");
+        var files = formFiles.files;
+        debugger;
+        for (var i = 0;i<files.length;i++){
+            data.append('file-'+i, files[i]);
+        }
+        $.ajax({
+            url: 'save',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'POST',
+            success: function(data){
+                alert('Файл успешно отправлен на сервер');
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(errorThrown);
+            }
+        });
+
+    }
 
     function UploadFile() {
         var files = document.getElementById("my_file").files;//массив файлов тут
@@ -78,5 +105,10 @@
 
         });
     }
+
+    function calculateProfile() {
+
+    }
 </script>
+</body>
 </html>
