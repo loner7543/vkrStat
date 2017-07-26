@@ -14,7 +14,7 @@ public class ReaderRawData {
        return s;
     }
     //Метод для чтения исходных данных из файла fileName
-    public static RawData readData(String fileName) throws IOException,FileFormatException
+    public static RawData readData(String fileName,InputStream inputStream) throws IOException,FileFormatException
     {
         try
         {
@@ -30,7 +30,7 @@ public class ReaderRawData {
             double[] yOffset;                       //тета
             int i=0;
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(fileName)));
+            BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
 
             String s=readLine(in);
             surfaceRadius = Double.parseDouble(s.substring(0, s.indexOf(" ")));
