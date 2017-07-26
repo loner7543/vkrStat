@@ -13,13 +13,15 @@
     <title>Статистика</title>
     <script type="text/javascript" src="<c:url value="/js/jquery-2.1.4.min.js"/>"></script>
     <script type="text/javascript" src="<c:url value="/js/bootstrap.min.js"/>"></script>
+    <script type="text/javascript" src="<c:url value="/js/plotly/plotly.min.js"/>"></script>
     <link rel="stylesheet" href="<c:url value="/css/bootstrap.min.css"/> ">
     <link rel="stylesheet" href="<c:url value="/css/bootstrap-theme.min.css"/> ">
+    <link rel="stylesheet" href="<c:url value="/css/global.css"/>">
 </head>
-<body>
+<body class="wraper">
 
 <form:form method="post" action="save.html" enctype="multipart/form-data">
-    <input type="file" id="my_file" name="files[]" multiple="multiple"> />
+    <input type="file" id="my_file" name="files[]" multiple="multiple">
     <br/><input type="submit" value="Upload"/>
 </form:form>
 <input type="button" value="Рассчитать статистику" onclick="calculateStatistics()">
@@ -34,7 +36,9 @@
 
     </ul>
 </div><br>
-<input type="button" value="Рассчет профиля" onclick="calculateProfile()" class="btn-danger">
+<input type="button" value="Рассчет профиля" onclick="calculateProfile()" class="btn"><br>
+    <div id="amplitudesHistogram"></div><br>
+<div id="int"></div>
 <script>
     var url = "save";
     var getStstUrl = "calculate";
@@ -97,6 +101,35 @@
                     PinPoint.innerText = PinPoint.innerText+json["point"];
                     opt.innerText = opt.innerText+json["closest"];
 
+                    var amplitudes = json["amplitudes"];
+                    var xLabelData = 1;
+                    var xLabelValues =[];
+                    for(var i = 0;i<amplitudes.length;i++){
+                        xLabelValues.push(''+xLabelData);
+                        xLabelData++;
+                    }
+                    var layout = {
+                        title: 'Гистограмма амплитуд',
+                        showlegend: true,
+                        xaxis: {
+                            tickangle: -45
+                        },
+                        yaxis: {
+                            zeroline: false,
+                            gridwidth: 2
+                        },
+                        bargap :0.05
+
+                    };
+                    var graphData = [
+                        {
+                            x: xLabelValues,
+                            y:amplitudes,
+                            type: 'bar',
+                            name:'Амплитуды'
+                        }
+                    ];
+                    Plotly.newPlot('amplitudesHistogram', graphData,layout);
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {

@@ -13,7 +13,8 @@
     <script type="text/javascript" src="<c:url value="/js/jquery-2.1.4.min.js"/>"></script>
     <script type="text/javascript" src="<c:url value="/js/bootstrap.min.js"/>"></script>
     <link rel="stylesheet" href="<c:url value="/css/bootstrap.min.css"/> ">
-    <link rel="stylesheet" href="<c:url value="/css/bootstrap-theme.min.css"/> ">
+    <link rel="stylesheet" href="<c:url value="/css/bootstrap-theme.min.css"/>">
+    <link rel="stylesheet" href="<c:url value="/css/global.css"/>">
 </head>
 <body>
 <label>Исходный файл для построения профиля: </label><br>
