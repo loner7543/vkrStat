@@ -2,6 +2,7 @@
 package model.Data;
 public class RawData
 {
+    private String fileName;
     private double surfaceRadius;               //радиус фотоприемника LFP
     private double emitterYOffset;              //смещение осветителя Y0
     private double initialEmitterHeightPosition;//Zmin осветителя
@@ -17,7 +18,7 @@ public class RawData
                     double initialEmitterHeightPosition, double emitterHeightStep,
                     double minReflectedLightCoord, double maxReflectedLightCoord,
                     int discretePoints, int radialProfilesNumber,
-                    double[] xOffset, double[] yOffset)
+                    double[] xOffset, double[] yOffset,String name)
    {
         this.surfaceRadius=surfaceRadius;
         this.emitterYOffset=emitterXOffset;
@@ -29,6 +30,7 @@ public class RawData
         this.radialProfilesNumber=radialProfilesNumber;
         this.xOffset=xOffset;
         this.yOffset=yOffset;
+        this.fileName = name;
     }
 
     public double getSurfaceRadius()
@@ -70,6 +72,14 @@ public class RawData
     public double[] getYOffset()
     {
         return yOffset;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 }
 

@@ -42,7 +42,7 @@
 <script>
     var url = "save";
     var getStstUrl = "calculate";
-    var calcProfileURL = "calculateProfile";
+
 
     function sendToServer() {
         var data = new FormData();
@@ -137,10 +137,6 @@
             }
 
         });
-    }
-
-    function calculateProfile() {
-
     }
 </script>
 </body>
