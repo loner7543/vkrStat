@@ -7,16 +7,14 @@ import model.Data.StatisticsData;
 import model.Exception.FileFormatException;
 import model.Exception.LittleStatisticalDataException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -25,11 +23,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class IndexController {
     private static final Logger logger = LoggerFactory.getLogger(IndexController.class);
     private ArrayList<RawData> rawData;
+    private  static List<String> fileNames;
 
     @RequestMapping(method = RequestMethod.GET, value = "/")
     public String slash(Model model, HttpSession session) {
@@ -72,9 +72,8 @@ public class IndexController {
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public  @ResponseBody
-    String save(@RequestParam("files[]") List<MultipartFile> files, Model map) throws IOException {
-        List<String> fileNames = new ArrayList<String>();
+    public  @ResponseBody String save(@RequestParam("files[]") List<MultipartFile> files, Model map) throws IOException {
+        fileNames = new ArrayList<String>();
         rawData = new ArrayList<RawData>(); //тут данные уже прошедшие через парсер
         if(null != files && files.size() > 0) {
             for (MultipartFile multipartFile : files) {
@@ -91,5 +90,34 @@ public class IndexController {
             }
         }
         return "file_upload_success";
+    }
+
+    @RequestMapping(value = "/Profile", method = RequestMethod.GET)
+    public ModelAndView showProfile(){
+        ModelAndView modelAndView = new ModelAndView("profile");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/calculateProfile", method = RequestMethod.POST,consumes = "application/json")
+    public ResponseEntity<String> calculateProfileFromFile(@RequestBody String m){
+        JSONObject object = new JSONObject(m);
+        String jsonStr = "";
+        if (fileNames!=null||rawData.size()>0){
+            String fileName = "BEM_120.DAT";// todo захардкодил пока
+            List<RawData> data = rawData.stream().filter(rawData1 -> rawData1.getFileName().equals(fileName)).collect(Collectors.toList());
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                jsonStr = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(data.get(0));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(jsonStr);
+
+    }
+
+    @RequestMapping(value = "/calculateCluglogramme", method = RequestMethod.POST,consumes = "application/json")
+    public ResponseEntity<String> calculateCruglogramme(@RequestBody String m){
+        return null;
     }
 }

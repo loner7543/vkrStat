@@ -26,13 +26,18 @@
 <label id="points">Количество точек на сечение: </label><br>
 <label id="count">Количество сечений: </label><br>
 <input type="button" value="Рассчитать профиль" onclick="calculateProfile()">
-<input type="button" value="Рассчитать круглограмму">
-<ul>
+
+<p>Настройки</p><br>
+<p><input type="radio" id="gran" name="settings" value="grann">Гранность</p>
+<p><input type="radio" id="voln" name="settings" value="voln">Волнистость</p><br>
+<input type="button" value="Рассчитать круглограмму" onclick="calculateCruglogramm()">
+<ul id="cruglogrammeResult">
 
 
 </ul>
 <script>
     var calcProfileURL = "calculateProfile";
+    var calcCruglogrammeUrl = "calculateCluglogramme";
     function calculateProfile() {
         var data = {
             fileName:"BEM_120.DAT"// todo брать его с поля ввода сверху
@@ -66,6 +71,10 @@
                         alert(errorThrown);
                     }
                 })
+    }
+
+    function calculateCruglogramm() {
+        var f = 4;
     }
 </script>
 </body>

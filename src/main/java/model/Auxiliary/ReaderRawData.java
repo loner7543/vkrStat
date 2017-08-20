@@ -57,7 +57,7 @@ public class ReaderRawData {
                 yOffset[i++]=Double.parseDouble(s.substring(s.lastIndexOf(" ")+1));
             }
             
-            return new RawData(surfaceRadius, emitterYOffset, initialEmitterHeightPosition, emitterHeightStep, minReflectedLightCoord, maxReflectedLightCoord, discretePoints, radialProfilesNumber, xOffset, yOffset);
+            return new RawData(surfaceRadius, emitterYOffset, initialEmitterHeightPosition, emitterHeightStep, minReflectedLightCoord, maxReflectedLightCoord, discretePoints, radialProfilesNumber, xOffset, yOffset,fileName);
         }
         catch (IOException ex)
         {
