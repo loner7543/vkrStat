@@ -5,6 +5,11 @@
     <title>Startup</title>
 </head>
 <body>
-<p>dwdd</p>
+<ul>
+    <li><a>Главная</a></li>
+    <li><a href="/krugstat/Statistics">Расчет статистики></a></li>
+    <li><a href="/krugstat//Profile">Расчет профиля</a></li>
+    <li><a href="/krugstat//Help">Помощь</a></li>
+</ul>
 </body>
 </html>

@@ -8,9 +8,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Помощь</title>
 </head>
 <body>
-
+<ul>
+    <li><a>Главная</a></li>
+    <li><a href="/krugstat/Statistics">Расчет статистики></a></li>
+    <li><a href="/krugstat//Profile">Расчет профиля</a></li>
+    <li><a href="/krugstat//Help">Помощь</a></li>
+</ul>
 </body>
 </html>

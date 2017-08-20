@@ -16,8 +16,15 @@
     <link rel="stylesheet" href="<c:url value="/css/bootstrap.min.css"/> ">
     <link rel="stylesheet" href="<c:url value="/css/bootstrap-theme.min.css"/>">
     <link rel="stylesheet" href="<c:url value="/css/global.css"/>">
+    <script type="text/javascript" src="<c:url value="/js/profile.js"/>"></script>
 </head>
 <body>
+<ul>
+    <li><a>Главная</a></li>
+    <li><a href="/krugstat/Statistics">Расчет статистики></a></li>
+    <li><a href="/krugstat//Profile">Расчет профиля</a></li>
+    <li><a href="/krugstat//Help">Помощь</a></li>
+</ul>
 <label>Исходный файл для построения профиля: </label><br>
 <label id="radius">Радиус фотоприемника: </label><br>
 <label id="delta">Смещение осветителя: </label><br>
@@ -30,52 +37,9 @@
 <p>Настройки</p><br>
 <p><input type="radio" id="gran" name="settings" value="grann">Гранность</p>
 <p><input type="radio" id="voln" name="settings" value="voln">Волнистость</p><br>
-<input type="button" value="Рассчитать круглограмму" onclick="calculateCruglogramm()">
+<input type="button" value="Рассчитать круглограмму" onclick="calculateCruglogramm()"><br>
+<h2>Отклонения</h2>
 <ul id="cruglogrammeResult">
-
-
 </ul>
-<script>
-    var calcProfileURL = "calculateProfile";
-    var calcCruglogrammeUrl = "calculateCluglogramme";
-    function calculateProfile() {
-        var data = {
-            fileName:"BEM_120.DAT"// todo брать его с поля ввода сверху
-        };
-                $.ajax({
-                    url: calcProfileURL,
-                    data: JSON.stringify(data),
-                    type: 'POST',
-                    //dataType: "json",
-                    contentType: 'application/json', //charset=utf-8,
-                    success: function (json, textStatus, jqXHR) {
-                        if(textStatus!=200){// todo почему
-                            console.log(json);
-                            var jsonObject = JSON.parse(json);
-                            var radius = document.getElementById("radius");
-                            var delta = document.getElementById("delta");
-                            var zmin = document.getElementById("zmin");
-                            var step = document.getElementById("step");
-                            var points = document.getElementById("points");
-                            var countLabel = document.getElementById("count");
-
-                            radius.innerText = radius.innerText+jsonObject["surfaceRadius"];
-                            delta.innerText = delta.innerText+jsonObject["emitterYOffset"];
-                            zmin.innerText = zmin.innerText+jsonObject["initialEmitterHeightPosition"];
-                            step.innerText = step.innerText+jsonObject["emitterHeightStep"];
-                            points.innerText = points.innerText+jsonObject["discretePoints"];
-                            countLabel.innerText = countLabel.innerText+jsonObject["radialProfilesNumber"];
-                        }
-                    },
-                    error:function (jqXHR, textStatus, errorThrown) {
-                        alert(errorThrown);
-                    }
-                })
-    }
-
-    function calculateCruglogramm() {
-        var f = 4;
-    }
-</script>
 </body>
 </html>

@@ -2,6 +2,8 @@ package ru.ssau.controllers;
 
 import model.Auxiliary.ReaderRawData;
 import model.Calculation.ConsiderStatistics;
+import model.Calculation.Converter;
+import model.Data.Data;
 import model.Data.RawData;
 import model.Data.StatisticsData;
 import model.Exception.FileFormatException;
@@ -17,19 +19,22 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import tools.StreamHelper;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 public class IndexController {
     private static final Logger logger = LoggerFactory.getLogger(IndexController.class);
     private ArrayList<RawData> rawData;
     private  static List<String> fileNames;
+    private int minBorder;
+    private int maxBorder;
+    private boolean mode;
 
     @RequestMapping(method = RequestMethod.GET, value = "/")
     public String slash(Model model, HttpSession session) {
@@ -98,13 +103,19 @@ public class IndexController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/Help", method = RequestMethod.GET)
+    public ModelAndView showHelpPage(){
+        ModelAndView modelAndView = new ModelAndView("help");
+        return modelAndView;
+    }
+
     @RequestMapping(value = "/calculateProfile", method = RequestMethod.POST,consumes = "application/json")
     public ResponseEntity<String> calculateProfileFromFile(@RequestBody String m){
         JSONObject object = new JSONObject(m);
         String jsonStr = "";
         if (fileNames!=null||rawData.size()>0){
             String fileName = "BEM_120.DAT";// todo захардкодил пока
-            List<RawData> data = rawData.stream().filter(rawData1 -> rawData1.getFileName().equals(fileName)).collect(Collectors.toList());
+            List<RawData> data = StreamHelper.getRawDataByFileName(fileName,rawData);//rawData.stream().filter(rawData1 -> rawData1.getFileName().equals(fileName)).collect(Collectors.toList());
             ObjectMapper mapper = new ObjectMapper();
             try {
                 jsonStr = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(data.get(0));
@@ -118,6 +129,30 @@ public class IndexController {
 
     @RequestMapping(value = "/calculateCluglogramme", method = RequestMethod.POST,consumes = "application/json")
     public ResponseEntity<String> calculateCruglogramme(@RequestBody String m){
-        return null;
+        JSONObject jsonObject = new JSONObject(m);
+        String jsonStr = "";
+        String fileName = "BEM_120.DAT";// todo захардкодил пока
+        RawData elem = StreamHelper.getRawDataByFileName(fileName,rawData).get(0);
+        String jmode = jsonObject.getString("mode");
+        if (jmode.equals("grann")){// гранность
+            mode = false;
+            minBorder=16;
+            maxBorder=150;
+        }
+        else {
+            mode=true;// волнистость
+            minBorder=0;
+            maxBorder=15;
+        }
+        Converter  converter =new Converter(elem,mode);
+        Data data = converter.createData(mode,minBorder,maxBorder,1);//1- номер сечения. Спросить откуда брать сечение
+        double[] H=data.getH();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            jsonStr = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(H);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(jsonStr);
     }
 }
