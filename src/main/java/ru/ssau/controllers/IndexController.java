@@ -55,6 +55,12 @@ public class IndexController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/admin", method = RequestMethod.GET)
+    public ModelAndView showAdmin(){
+        ModelAndView modelAndView = new ModelAndView("reactTest");
+        return modelAndView;
+    }
+
     @RequestMapping(value = "/calculate", method = RequestMethod.POST)
     public ResponseEntity<String> calculateStatistics(){
         String jsonStr = "";

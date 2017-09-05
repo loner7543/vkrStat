@@ -55,10 +55,14 @@ function calculateCruglogramm() {
             contentType: 'application/json', //charset=utf-8,
             success: function (json, textStatus, jqXHR) {
                 if (textStatus != 200) {// todo почему
-                    var jsonObject = JSON.parse(json);
-                    console.log(jsonObject);
+                    var heightArray = JSON.parse(json);
+                    console.log(heightArray);
                     var hList = document.getElementById("cruglogrammeResult");
-                    hList.empty();
+                    for(var i = 0;i<heightArray.length;i++){
+                        var li = document.createElement("li");
+                        li.appendChild(heightArray[i]);
+                        hList.appendChild(li);
+                    }
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
