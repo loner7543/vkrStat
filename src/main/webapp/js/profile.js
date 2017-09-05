@@ -60,7 +60,7 @@ function calculateCruglogramm() {
                     var hList = document.getElementById("cruglogrammeResult");
                     for(var i = 0;i<heightArray.length;i++){
                         var li = document.createElement("li");
-                        li.appendChild(heightArray[i]);
+                        li.appendChild(document.createTextNode(i+1+": "+heightArray[i]));
                         hList.appendChild(li);
                     }
                 }

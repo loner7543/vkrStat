@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="<c:url value="/css/bootstrap.min.css"/> ">
     <link rel="stylesheet" href="<c:url value="/css/bootstrap-theme.min.css"/>">
     <link rel="stylesheet" href="<c:url value="/css/global.css"/>">
+    <link rel="stylesheet" href="<c:url value="/css/profile.css"/>">
     <script type="text/javascript" src="<c:url value="/js/profile.js"/>"></script>
 </head>
 <body>
@@ -41,5 +42,6 @@
 <h2>Отклонения</h2>
 <ul id="cruglogrammeResult">
 </ul>
+<div id="circlePlot"></div>
 </body>
 </html>

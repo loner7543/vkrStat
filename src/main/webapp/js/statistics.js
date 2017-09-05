@@ -51,6 +51,7 @@ function calculateStatistics() {
                 var dov = document.getElementById("dov");
                 var PinPoint = document.getElementById("PinPoint");
                 var opt = document.getElementById("opt");
+                var kxLabel = document.getElementById("kxSqare");
 
                 sko.innerText = sko.innerText+json["sko"];
                 psist.innerText = psist.innerText+json["syst"];
@@ -58,6 +59,11 @@ function calculateStatistics() {
                 dov.innerText = dov.innerText+json["dov"];
                 PinPoint.innerText = PinPoint.innerText+json["point"];
                 opt.innerText = opt.innerText+json["closest"];
+                var sqareValue = json["levelTovalue"];
+                if(sqareValue!=-1){
+                    kxLabel.innerText = kxLabel.innerText+"Гипотеза о нормальном распределении верна, с уровнем значимости "+json["levelTovalue"];
+                }
+                else {kxLabel.innerText = kxLabel.innerText+"Гипотеза о нормальном распределении не верна";}
 
                 var amplitudes = json["amplitudes"];
                 var xLabelData = 1;

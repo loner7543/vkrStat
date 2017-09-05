@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="<c:url value="/css/bootstrap.min.css"/> ">
     <link rel="stylesheet" href="<c:url value="/css/bootstrap-theme.min.css"/> ">
     <link rel="stylesheet" href="<c:url value="/css/global.css"/>">
+    <link rel="stylesheet" href="<c:url value="/css/ststistics.css"/>">
     <script type="text/javascript" src="<c:url value="/js/statistics.js"/>"></script>
 </head>
 <body class="wraper">
@@ -39,6 +40,7 @@
     <label id="dov">Доверительный интервал: </label><br>
     <label id="PinPoint">Погрешность в точке: </label><br>
     <label id="opt">Ближайший к оптимальному профиль:</label><br>
+    <label id="kxSqare"></label>
     <ul id="fileNamesList">
 
     </ul>
