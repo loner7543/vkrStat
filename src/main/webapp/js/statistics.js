@@ -1,7 +1,9 @@
 var url = "save";
 var getStstUrl = "calculate";
 
-
+function onCalculateProfile() {
+    document.location.href = "http://localhost:8081/krugstat/Profile?filename=BEM_120.DAT";
+}
 function sendToServer() {
     var data = new FormData();
     var formFiles = document.getElementById("my_file");

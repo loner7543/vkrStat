@@ -26,14 +26,13 @@
     <li><a href="/krugstat//Profile">Расчет профиля</a></li>
     <li><a href="/krugstat//Help">Помощь</a></li>
 </ul>
-<label>Исходный файл для построения профиля: </label><br>
+<label id="mainProfileLabel">Исходный файл для построения профиля: </label><br>
 <label id="radius">Радиус фотоприемника: </label><br>
 <label id="delta">Смещение осветителя: </label><br>
 <label id="zmin">Zmin осветителя:</label><br>
 <label id="step">Шаг осветителя: </label><br>
 <label id="points">Количество точек на сечение: </label><br>
 <label id="count">Количество сечений: </label><br>
-<input type="button" value="Рассчитать профиль" onclick="calculateProfile()">
 
 <p>Настройки</p><br>
 <p><input type="radio" id="gran" name="settings" value="grann">Гранность</p>

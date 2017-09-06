@@ -1,8 +1,16 @@
 var calcProfileURL = "calculateProfile";
 var calcCruglogrammeUrl = "calculateCluglogramme";
-function calculateProfile() {
+
+window.onload = function () {
+    var paramValue = window.location.href.split("?")[1].split("=")[1];
+    var fileLabel = document.getElementById("mainProfileLabel");
+    fileLabel.innerText = fileLabel.innerText+paramValue;
+    console.log(paramValue);
+    calculateProfile(paramValue);
+};
+function calculateProfile(profileFileName) {
     var data = {
-        fileName:"BEM_120.DAT"// todo брать его с поля ввода сверху
+        fileName:profileFileName
     };
     $.ajax({
         url: calcProfileURL,

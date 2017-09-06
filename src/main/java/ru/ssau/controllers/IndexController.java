@@ -120,7 +120,7 @@ public class IndexController {
         JSONObject object = new JSONObject(m);
         String jsonStr = "";
         if (fileNames!=null||rawData.size()>0){
-            String fileName = "BEM_120.DAT";// todo захардкодил пока
+            String fileName = object.getString("fileName");
             List<RawData> data = StreamHelper.getRawDataByFileName(fileName,rawData);//rawData.stream().filter(rawData1 -> rawData1.getFileName().equals(fileName)).collect(Collectors.toList());
             ObjectMapper mapper = new ObjectMapper();
             try {
