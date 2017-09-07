@@ -20,12 +20,26 @@
     <script type="text/javascript" src="<c:url value="/js/profile.js"/>"></script>
 </head>
 <body>
-<ul>
-    <li><a>Главная</a></li>
-    <li><a href="/krugstat/Statistics">Расчет статистики></a></li>
-    <li><a href="/krugstat//Profile">Расчет профиля</a></li>
-    <li><a href="/krugstat//Help">Помощь</a></li>
-</ul>
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Статистическая обработка </a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="/krugstat/Statistics">Расчет статистики></a></li>
+                <li class="active"><a href="/krugstat//Profile">Расчет профиля</a></li>
+                <li><a href="/krugstat//Help">Помощь</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
 <label id="mainProfileLabel">Исходный файл для построения профиля: </label><br>
 <label id="radius">Радиус фотоприемника: </label><br>
 <label id="delta">Смещение осветителя: </label><br>
