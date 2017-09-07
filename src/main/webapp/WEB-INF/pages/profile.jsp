@@ -51,7 +51,7 @@
 <p>Настройки</p><br>
 <p><input type="radio" id="gran" name="settings" value="grann">Гранность</p>
 <p><input type="radio" id="voln" name="settings" value="voln">Волнистость</p><br>
-<input type="button" value="Рассчитать круглограмму" onclick="calculateCruglogramm()"><br>
+<input type="button" value="Рассчитать круглограмму" onclick="calculateCruglogramm()" class="btn btn-primary"><br>
 <h2>Отклонения</h2>
 <ul id="cruglogrammeResult">
 </ul>

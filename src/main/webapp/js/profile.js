@@ -48,9 +48,9 @@ function calculateCruglogramm() {
     var rButtons = document.getElementsByName('settings');
     for (var i = 0; i < rButtons.length; i++) {
         if (rButtons[i].type == "radio" && rButtons[i].checked) {
-            checked =rButtons[i].value;
+            checked = rButtons[i].value;
         }
-
+    }
         var data = {
             fileName: "BEM_120.DAT",// todo брать его с поля ввода сверху
             mode:checked
@@ -66,6 +66,7 @@ function calculateCruglogramm() {
                     var heightArray = JSON.parse(json);
                     console.log(heightArray);
                     var hList = document.getElementById("cruglogrammeResult");
+                    $(hList).empty();
                     for(var i = 0;i<heightArray.length;i++){
                         var li = document.createElement("li");
                         li.appendChild(document.createTextNode(i+1+": "+heightArray[i]));
@@ -77,5 +78,4 @@ function calculateCruglogramm() {
                 alert(errorThrown);
             }
         })
-    }
 }

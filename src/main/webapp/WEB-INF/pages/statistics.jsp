@@ -59,7 +59,7 @@
 
     </ul>
 </div><br>
-<input type="button" value="Рассчет профиля" onclick="onCalculateProfile()" class="btn-default"><br>
+<input type="button" value="Рассчет профиля" onclick="onCalculateProfile()" class="btn btn-primary"><br>
     <div id="amplitudesHistogram"></div><br>
 <div id="int"></div>
 </body>
