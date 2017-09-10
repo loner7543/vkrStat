@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <html>
 <head>
     <title>Профиль</title>
@@ -40,21 +41,44 @@
         </div>
     </div>
 </nav>
-<label id="mainProfileLabel">Исходный файл для построения профиля: </label><br>
-<label id="radius">Радиус фотоприемника: </label><br>
-<label id="delta">Смещение осветителя: </label><br>
-<label id="zmin">Zmin осветителя:</label><br>
-<label id="step">Шаг осветителя: </label><br>
-<label id="points">Количество точек на сечение: </label><br>
-<label id="count">Количество сечений: </label><br>
+<div class="prColumn prLeftColumn">
+    <form:form method="post" action="save.html" enctype="multipart/form-data">
+        <input type="file" id="my_file" name="files[]" multiple="multiple">
+        <br/><input type="submit" value="Upload"/>
+    </form:form>
+    <ul id="fileNamesList">
+    </ul><br>
+    <input type="button" value="Рассчитать статистику" onclick="calculateStatistics()">
+    <input type="button" value="Рассчет профиля" onclick="onCalculateProfile()" class="btn btn-primary"><br>
+</div>
 
-<p>Настройки</p><br>
-<p><input type="radio" id="gran" name="settings" value="grann">Гранность</p>
-<p><input type="radio" id="voln" name="settings" value="voln">Волнистость</p><br>
-<input type="button" value="Рассчитать круглограмму" onclick="calculateCruglogramm()" class="btn btn-primary"><br>
-<h2>Отклонения</h2>
-<ul id="cruglogrammeResult">
-</ul>
-<div id="circlePlot"></div>
+<div class="prColumn prRightColumn">
+    <div class="row labelsRow">
+        <div class="prColumn labels">
+            <label id="mainProfileLabel">Исходный файл для построения профиля: </label><br>
+            <label id="radius">Радиус фотоприемника: </label><br>
+            <label id="delta">Смещение осветителя: </label><br>
+            <label id="zmin">Zmin осветителя:</label><br>
+            <label id="step">Шаг осветителя: </label><br>
+            <label id="points">Количество точек на сечение: </label><br>
+            <label id="count">Количество сечений: </label>
+        </div>
+        <div class="prColumn settings">
+            <p>Настройки</p><br>
+            <p><input type="radio" id="gran" name="settings" value="grann">Гранность</p>
+            <p><input type="radio" id="voln" name="settings" value="voln">Волнистость</p><br>
+            <input type="button" value="Рассчитать круглограмму" onclick="calculateCruglogramm()" class="btn btn-primary"><br>
+        </div>
+    </div>
+    <div class="row cruglogramme">
+        <div class="column gr"></div>
+        <div class="column dig"></div>
+    </div>
+</div>
+
+<%--<h2>Отклонения</h2>--%>
+<%--<ul id="cruglogrammeResult">--%>
+<%--</ul>--%>
+<%--<div id="circlePlot"></div>--%>
 </body>
 </html>

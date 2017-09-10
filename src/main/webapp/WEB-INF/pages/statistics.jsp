@@ -41,26 +41,34 @@
         </div>
     </div>
 </nav>
-
-<form:form method="post" action="save.html" enctype="multipart/form-data">
-    <input type="file" id="my_file" name="files[]" multiple="multiple">
-    <br/><input type="submit" value="Upload"/>
-</form:form>
-<input type="button" value="Рассчитать статистику" onclick="calculateStatistics()">
-<div id="statBlock">
-    <label id="sko">Среднеквадратическое отклонение:</label><br>
-    <label id="psist">Систематическая составляющая:</label><br>
-    <label id="psum">Суммарная погрешность: </label><br>
-    <label id="dov">Доверительный интервал: </label><br>
-    <label id="PinPoint">Погрешность в точке: </label><br>
-    <label id="opt">Ближайший к оптимальному профиль:</label><br>
-    <label id="kxSqare"></label>
+<div class="column left-column">
+    <form:form method="post" action="save.html" enctype="multipart/form-data">
+        <input type="file" id="my_file" name="files[]" multiple="multiple">
+        <br/><input type="submit" value="Upload"/>
+    </form:form>
     <ul id="fileNamesList">
-
-    </ul>
-</div><br>
-<input type="button" value="Рассчет профиля" onclick="onCalculateProfile()" class="btn btn-primary"><br>
-    <div id="amplitudesHistogram"></div><br>
-<div id="int"></div>
+    </ul><br>
+    <input type="button" value="Рассчитать статистику" onclick="calculateStatistics()">
+    <input type="button" value="Рассчет профиля" onclick="onCalculateProfile()" class="btn btn-primary"><br>
+</div>
+<div class="column right-column">
+    <div class="row first-row">
+        <div id="statBlock">
+            <label id="sko">Среднеквадратическое отклонение:</label><br>
+            <label id="psist">Систематическая составляющая:</label><br>
+            <label id="psum">Суммарная погрешность: </label><br>
+            <label id="dov">Доверительный интервал: </label><br>
+            <label id="PinPoint">Погрешность в точке: </label><br>
+            <label id="opt">Ближайший к оптимальному профиль:</label><br>
+            <label id="kxSqare"></label>
+        </div>
+    </div>
+    <div class="row second-row">
+        <div id="amplitudesHistogram"></div><br>
+    </div>
+    <div class="row third-row">
+        <div id="int"></div>
+    </div>
+</div>
 </body>
 </html>
