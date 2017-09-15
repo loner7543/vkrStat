@@ -42,13 +42,13 @@
     </div>
 </nav>
 <div class="column left-column">
-    <form:form method="post" action="save.html" enctype="multipart/form-data">
+    <form:form method="post" action="save.html" enctype="multipart/form-data" onsubmit="onSubmit(this)">
         <input type="file" id="my_file" name="files[]" multiple="multiple">
-        <br/><input type="submit" value="Upload"/>
+        <input type="submit" value="Upload" class="btn btn-primary"/>
     </form:form>
     <ul id="fileNamesList">
     </ul><br>
-    <input type="button" value="Рассчитать статистику" onclick="calculateStatistics()">
+    <input type="button" value="Рассчитать статистику" onclick="calculateStatistics()" class="btn btn-primary">
     <input type="button" value="Рассчет профиля" onclick="onCalculateProfile()" class="btn btn-primary"><br>
 </div>
 <div class="column right-column">
@@ -65,9 +65,13 @@
     </div>
     <div class="row second-row">
         <div id="amplitudesHistogram"></div><br>
+        <input type="button" value="Записать амплитуды в файл" class="btn btn-primary">
+        <input type="button" value="Считать из файла" class="btn btn-primary">
     </div>
     <div class="row third-row">
-        <div id="int"></div>
+        <div id="int"></div><br>
+        <input type="button" value="Записать высоты в файл" class="btn btn-primary">
+        <input type="button" value="Считать высоты из файла" class="btn btn-primary">
     </div>
 </div>
 </body>
