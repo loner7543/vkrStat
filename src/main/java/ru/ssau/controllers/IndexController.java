@@ -19,12 +19,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import tools.FileUtils;
 import tools.StreamHelper;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Controller
@@ -35,6 +37,9 @@ public class IndexController {
     private int minBorder;
     private int maxBorder;
     private boolean mode;
+    private StatisticsData statisticsData;
+    private Data data;
+    private double[] heights;
 
     @RequestMapping(method = RequestMethod.GET, value = "/")
     public String slash(Model model, HttpSession session) {
@@ -62,24 +67,16 @@ public class IndexController {
     }
 
     @RequestMapping(value = "/calculate", method = RequestMethod.POST)
-    public ResponseEntity<String> calculateStatistics(){
-        String jsonStr = "";
-        if(rawData!=null&&!rawData.isEmpty()){
+    public @ResponseBody StatisticsData calculateStatistics() {
+        if (rawData != null && !rawData.isEmpty()) {
             ConsiderStatistics considerStatistics = new ConsiderStatistics();
-            StatisticsData statisticsData = null;
             try {
                 statisticsData = considerStatistics.createStatisticsData(rawData);
             } catch (LittleStatisticalDataException e) {
                 e.printStackTrace();
             }
-            ObjectMapper mapper = new ObjectMapper();
-            try {
-                jsonStr = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(statisticsData);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
-        return ResponseEntity.status(HttpStatus.OK).body(jsonStr);
+        return statisticsData;
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
@@ -116,20 +113,15 @@ public class IndexController {
     }
 
     @RequestMapping(value = "/calculateProfile", method = RequestMethod.POST,consumes = "application/json")
-    public ResponseEntity<String> calculateProfileFromFile(@RequestBody String m){
+    public @ResponseBody RawData calculateProfileFromFile(@RequestBody String m){
         JSONObject object = new JSONObject(m);
         String jsonStr = "";
         if (fileNames!=null||rawData.size()>0){
             String fileName = object.getString("fileName");
-            List<RawData> data = StreamHelper.getRawDataByFileName(fileName,rawData);//rawData.stream().filter(rawData1 -> rawData1.getFileName().equals(fileName)).collect(Collectors.toList());
-            ObjectMapper mapper = new ObjectMapper();
-            try {
-                jsonStr = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(data.get(0));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            List<RawData> data = StreamHelper.getRawDataByFileName(fileName,rawData);
+            return data.get(0);
         }
-        return ResponseEntity.status(HttpStatus.OK).body(jsonStr);
+        return null;
 
     }
 
@@ -151,14 +143,40 @@ public class IndexController {
             maxBorder=15;
         }
         Converter  converter =new Converter(elem,mode);
-        Data data = converter.createData(mode,minBorder,maxBorder,1);//1- номер сечения. Спросить откуда брать сечение
-        double[] H=data.getH();
+        data = converter.createData(mode,minBorder,maxBorder,1);//1- номер сечения. Спросить откуда брать сечение
+        heights=data.getH();
         ObjectMapper mapper = new ObjectMapper();
         try {
-            jsonStr = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(H);
+            jsonStr = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(heights);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return ResponseEntity.status(HttpStatus.OK).body(jsonStr);
+    }
+
+    @RequestMapping(value = "/uploadAmplitudes", method = RequestMethod.GET)
+    public void writeAmplitudesToFile() throws IOException {
+        if (statisticsData!=null){
+            int i = 1;
+            List<String> amplitudes = new LinkedList<>();
+            for (double amplitude:statisticsData.getAmplitudes()){
+                amplitudes.add(String.valueOf(i).concat("  ").concat(String.valueOf(amplitude)));
+                i++;
+            }
+            FileUtils.writeFile("amplitudes.txt",amplitudes);
+        }
+    }
+
+    @RequestMapping(value = "/uploadCruglogramme", method = RequestMethod.GET)
+    public void writeProfile() throws IOException {
+        if (heights!=null){
+            int i = 1;
+            List<String> outH = new LinkedList<>();
+            for (double h:heights){
+                outH.add(String.valueOf(i).concat("  ").concat(String.valueOf(h)));
+                i++;
+            }
+            FileUtils.writeFile("cruglogramme.txt",outH);
+        }
     }
 }

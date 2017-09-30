@@ -4,6 +4,22 @@ var getStstUrl = "calculate";
 function onCalculateProfile() {
     document.location.href = "http://localhost:8081/krugstat/Profile?filename=BEM_120.DAT";
 }
+
+function onSubmit(form) {
+    console.log("submitting files....");
+    console.log(form);
+    var fileNamesList = $("#fileNamesList");
+    var files = form.children.item(0).files;
+    console.log(files);
+    $(fileNamesList).empty();
+    for(var i = 0;i<files.length;i++){
+        var li = document.createElement("li");
+        li.appendChild(document.createTextNode(i+1+": "+files[i].name));
+        fileNamesList.appendChild(li);
+    }
+    form.submit();
+
+}
 function sendToServer() {
     var data = new FormData();
     var formFiles = document.getElementById("my_file");
@@ -46,7 +62,6 @@ function calculateStatistics() {
         success: function (data, textStatus, jqXHR) {
             if (jqXHR.status == 200) {
                 console.log(data);
-                var json = JSON.parse(data)
                 var sko = document.getElementById("sko");
                 var psist = document.getElementById("psist");
                 var psum = document.getElementById("psum");
@@ -54,20 +69,22 @@ function calculateStatistics() {
                 var PinPoint = document.getElementById("PinPoint");
                 var opt = document.getElementById("opt");
                 var kxLabel = document.getElementById("kxSqare");
+                var mediumLabel = document.getElementById("mediumLabel");
 
-                sko.innerText = sko.innerText+json["sko"];
-                psist.innerText = psist.innerText+json["syst"];
-                psum.innerText = psum.innerText+json["psum"];
-                dov.innerText = dov.innerText+json["dov"];
-                PinPoint.innerText = PinPoint.innerText+json["point"];
-                opt.innerText = opt.innerText+json["closest"];
-                var sqareValue = json["levelTovalue"];
+                sko.innerText = sko.innerText+data.sko;
+                psist.innerText = psist.innerText+data.syst;
+                psum.innerText = psum.innerText+data.psum;
+                dov.innerText = dov.innerText+data.dov;
+                PinPoint.innerText = PinPoint.innerText+data.point;
+                opt.innerText = opt.innerText+data.closest;
+                mediumLabel.innerText = mediumLabel.innerText+data.mediumValue;
+                var sqareValue = data.levelTovalue;
                 if(sqareValue!=-1){
-                    kxLabel.innerText = kxLabel.innerText+"Гипотеза о нормальном распределении верна, с уровнем значимости "+json["levelTovalue"];
+                    kxLabel.innerText = kxLabel.innerText+"Гипотеза о нормальном распределении верна, с уровнем значимости "+data.levelTovalue;
                 }
                 else {kxLabel.innerText = kxLabel.innerText+"Гипотеза о нормальном распределении не верна";}
 
-                var amplitudes = json["amplitudes"];
+                var amplitudes = data.amplitudes;
                 var xLabelData = 1;
                 var xLabelValues =[];
                 for(var i = 0;i<amplitudes.length;i++){

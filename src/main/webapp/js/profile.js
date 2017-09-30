@@ -21,7 +21,6 @@ function calculateProfile(profileFileName) {
         success: function (json, textStatus, jqXHR) {
             if(textStatus!=200){// todo почему
                 console.log(json);
-                var jsonObject = JSON.parse(json);
                 var radius = document.getElementById("radius");
                 var delta = document.getElementById("delta");
                 var zmin = document.getElementById("zmin");
@@ -29,12 +28,12 @@ function calculateProfile(profileFileName) {
                 var points = document.getElementById("points");
                 var countLabel = document.getElementById("count");
 
-                radius.innerText = radius.innerText+jsonObject["surfaceRadius"];
-                delta.innerText = delta.innerText+jsonObject["emitterYOffset"];
-                zmin.innerText = zmin.innerText+jsonObject["initialEmitterHeightPosition"];
-                step.innerText = step.innerText+jsonObject["emitterHeightStep"];
-                points.innerText = points.innerText+jsonObject["discretePoints"];
-                countLabel.innerText = countLabel.innerText+jsonObject["radialProfilesNumber"];
+                radius.innerText = radius.innerText+json.surfaceRadius;
+                delta.innerText = delta.innerText+json.emitterYOffset;
+                zmin.innerText = zmin.innerText+json.initialEmitterHeightPosition;
+                step.innerText = step.innerText+json.emitterHeightStep;
+                points.innerText = points.innerText+json.discretePoints;
+                countLabel.innerText = countLabel.innerText+json.radialProfilesNumber;
             }
         },
         error:function (jqXHR, textStatus, errorThrown) {
