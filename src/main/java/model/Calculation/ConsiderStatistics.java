@@ -8,6 +8,7 @@ import model.Exception.LittleStatisticalDataException;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class ConsiderStatistics //extends Thread
@@ -18,38 +19,23 @@ public class ConsiderStatistics //extends Thread
     private ArrayList<Double> borders;
     private double minLengthBorderc;
 
-    //    private CommutatorPanel pane;
     private RawData[] rawData;
     private ArrayList<String> fileNameList;
-//    private volatile JProgressBar bar;
-//    private JPanel barPane;
-
     private final double epsilon=0.000001;
 
-    public  ConsiderStatistics()
-    {
+    public  ConsiderStatistics() {
         dataSet=null;
         discretePoints=0;
     }
 
-    //    public  ConsiderStatistics(CommutatorPanel pane)
-//    {
-//        dataSet=null;
-//        discretePoints=0;
-////        this.pane=pane;
-//        barPane=new JPanel();
-//        barPane.setLayout(new BorderLayout());
-//    }
     public StatisticsData createStatisticsData(ArrayList<RawData> rawData)throws LittleStatisticalDataException
     {
         int numberRadial=1;
         dataSet=new ArrayList<Data>();
         discretePoints=rawData.get(0).getDiscretePoints();
-        //double stepBar=100/(double)rawData.size();
         for(int i=0; i<rawData.size(); i++)
         {
             dataSet.add(new Converter(rawData.get(i),false).createData(false, 16, 150, numberRadial));
-//            bar.setValue((int)(i*stepBar));
         }
         return this.createStatisticsData();
     }
@@ -62,7 +48,8 @@ public class ConsiderStatistics //extends Thread
         double[] relativeFrequency=calculationRelativeFrequency(arrayAmplitudes.length,M);
         double KxSquare=calculationKxSquare(arrayAmplitudes.length,M,calculationTheoreticalRelativeFrequency(avg,sko,M.length));
         double levelTovalue=TabularData.checkingForNormalCurve(KxSquare,M.length);
-        return new StatisticsData(0, avg, 0, sko, arrayAmplitudes, borders, minLengthBorderc, relativeFrequency, KxSquare, levelTovalue);
+        double mediumValue = Arrays.stream(arrayAmplitudes).sum()/arrayAmplitudes.length;// среднее значение по выборке амплитуд
+        return new StatisticsData(0, avg, 0, sko, arrayAmplitudes, borders, minLengthBorderc, relativeFrequency, KxSquare, levelTovalue,mediumValue);
     }
     public StatisticsData createStatisticsData() throws LittleStatisticalDataException
     {
@@ -77,63 +64,13 @@ public class ConsiderStatistics //extends Thread
         double[] relativeFrequency=calculationRelativeFrequency(arrayAmplitudes.length,M);
         double KxSquare=calculationKxSquare(arrayAmplitudes.length,M,calculationTheoreticalRelativeFrequency(avg,sko,M.length));
         double levelTovalue=TabularData.checkingForNormalCurve(KxSquare,M.length);
-        return new StatisticsData(point, avg, closest, sko, arrayAmplitudes, borders, minLengthBorderc, relativeFrequency, KxSquare, levelTovalue);
+        double mediumValue = Arrays.stream(arrayAmplitudes).sum()/arrayAmplitudes.length;// среднее значение по выборке амплитуд
+        return new StatisticsData(point, avg, closest, sko, arrayAmplitudes, borders, minLengthBorderc, relativeFrequency, KxSquare, levelTovalue,mediumValue);
     }
-    public void setParameters(ArrayList<String> listFileName, JProgressBar bar)
+    public void setParameters(ArrayList<String> listFileName)
     {
         this.fileNameList=listFileName;
-//        this.bar=bar;
     }
-    public void run()
-    {
-        ConsiderStatistics consider=this;
-//        try
-//        {
-
-//            JLabel barLabel=new JLabel("Чтение файлов: ");
-//            barPane.add(barLabel,BorderLayout.WEST);
-//            barPane.add(bar,BorderLayout.CENTER);
-//            pane.getStatisticPanel().add(barPane,BorderLayout.SOUTH);
-//            pane.repaint();
-        //rawData=ConsiderStatistics.readRawStatisticsData(fileNameList/*,bar*/); перенес считывание сырой статистики в класс контроллера
-//            bar.setValue(0);
-//            barLabel.setText("Обработка данных: ");
-        //pane.getStatisticPanel().openStatisticsData(consider.createStatisticsData(rawData, bar), pane.getSizeNumerals());
-//            bar.setValue(100);
-    }
-//        catch (IOException ex)
-//        {
-//            String message=ex.getMessage().substring(0,ex.getMessage().indexOf("Файл: "));
-//            String name=ex.getMessage().substring(ex.getMessage().indexOf("Файл: "));
-//            message=message+"\n Произошла ошибка при чтение файла.\n"+name;
-////            JOptionPane.showMessageDialog(pane,message,"Error  of the format of the file", JOptionPane.ERROR_MESSAGE);
-//        }
-//        catch (FileFormatException ex)
-//        {
-//             String message=ex.getMessage().substring(0,ex.getMessage().indexOf("Файл: "));
-//             String name=ex.getMessage().substring(ex.getMessage().indexOf("Файл: "));
-////             message=message+"\n Произошла ошибка при чтение файла.\n"+name+"\nСодержит некоректные данные.";
-//////             JOptionPane.showMessageDialog(pane,message,"Error  of the format of the file", JOptionPane.ERROR_MESSAGE);
-//        }
-//        finally
-//        {
-//            pane.setConsider(consider);
-//            pane.getStatisticPanel().remove(barPane);
-//            pane.getFilePanel().releasePane();
-//            pane.repaint();
-//        }
-
-//    public static RawData[] readRawStatisticsData(ArrayList<String> listFileName)throws IOException,FileFormatException
-//    {
-//        double stepBar=100/(double)listFileName.size();
-//        RawData[] rawData=new RawData[listFileName.size()];
-//        for(int i=0; i<listFileName.size(); i++)
-//        {
-//           // rawData[i]=ReaderRawData.readData(listFileName.get(i)); счситывание реализовано в класссе контроллера
-////            bar.setValue((int)(i*stepBar));
-//        }
-//        return rawData;
-//    }
 
     //Погрешность в точке
     private static double point(ArrayList<Data> dataSet, int discretePoints)

@@ -21,9 +21,10 @@ public class StatisticsData implements Serializable
     private double valueKxSquare;//величина кси квадрат
     private double levelTovalue;// уровень значимости, если -1,то гепотиза о нормальном законе распределения отклоняется
     private double minLengthBorderc;
+    private double mediumValue;
 
     public StatisticsData(double point,double avg,int closest,double sko,double[] arrayAmplitudes, ArrayList<Double> bordersFrequency,
-                          double minLengthBorderc, double[] relativeFrequency, double valueKxSquare, double levelTovalue)
+                          double minLengthBorderc, double[] relativeFrequency, double valueKxSquare, double levelTovalue,double mediumValue)
     {
         this.arrayAmplitudes=arrayAmplitudes;
         this.point=point;
@@ -38,6 +39,7 @@ public class StatisticsData implements Serializable
         this.minLengthBorderc=minLengthBorderc;
         this.valueKxSquare=valueKxSquare;
         this.levelTovalue=levelTovalue;
+        this.mediumValue = mediumValue;
     }
     public double getAvg()
     {
@@ -102,5 +104,14 @@ public class StatisticsData implements Serializable
         double max=Double.NEGATIVE_INFINITY;
         for(int i=0; i<relativeFrequency.length; i++)if(relativeFrequency[i]>max)max=relativeFrequency[i];
         return max;
+    }
+
+
+    public double getMediumValue() {
+        return mediumValue;
+    }
+
+    public void setMediumValue(double mediumValue) {
+        this.mediumValue = mediumValue;
     }
 }

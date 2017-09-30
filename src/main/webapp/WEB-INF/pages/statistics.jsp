@@ -60,6 +60,7 @@
             <label id="dov">Доверительный интервал: </label><br>
             <label id="PinPoint">Погрешность в точке: </label><br>
             <label id="opt">Ближайший к оптимальному профиль:</label><br>
+            <label id="mediumLabel">Среднее по выборке:</label><br>
             <label id="kxSqare"></label>
         </div>
     </div>
