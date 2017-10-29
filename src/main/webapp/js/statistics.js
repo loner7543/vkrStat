@@ -8,7 +8,7 @@ function onCalculateProfile() {
 function onSubmit(form) {
     console.log("submitting files....");
     console.log(form);
-    var fileNamesList = $("#fileNamesList");
+    var fileNamesList = document.getElementById("fileNamesList");
     var files = form.children.item(0).files;
     console.log(files);
     $(fileNamesList).empty();
@@ -25,12 +25,12 @@ function sendToServer() {
     var formFiles = document.getElementById("my_file");
     var files = formFiles.files;
     debugger;
-    for (var i = 0;i<files.length;i++){
-        data.append('file-'+i, files[i]);
-    }
+    // for (var i = 0;i<files.length;i++){
+    //     data.append('file-'+i, files[i]);
+    // }
     $.ajax({
         url: 'save',
-        data: data,
+        data: files,
         cache: false,
         contentType: false,
         processData: false,

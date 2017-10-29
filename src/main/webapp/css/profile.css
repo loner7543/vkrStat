@@ -3,3 +3,56 @@
     overflow:auto;
     list-style-type: none;
 }
+
+.prColumn{
+    height: 100%;
+}
+.prLeftColumn{
+    width: 20%;
+    float: left;
+    /*background-color: pink;*/
+}
+
+.prRightColumn{
+    /*background-color: yellow;*/
+    width: 80%;
+    float: right;
+}
+
+.row{
+    width: 100%;
+}
+
+.labelsRow{
+    height: 20%;
+    background-color: #2aabd2;
+}
+
+.labels{
+    float: left;
+    width: 80%;
+    background-color: blue;
+}
+
+.settings{
+    width: 20%;
+    float: right;
+    background-color: #985f0d;
+
+}
+
+.cruglogramme{
+    height: 80%;
+    background-color: #b1240c;
+}
+.dig{
+float: right;
+    background-color: #2aabd2;
+    height: 80%;
+}
+.gr{
+    width: 60%;
+    background-color: #eea236;
+    float: left;
+}
+

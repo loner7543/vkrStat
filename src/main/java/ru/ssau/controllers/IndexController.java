@@ -80,7 +80,7 @@ public class IndexController {
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public  @ResponseBody String save(@RequestParam("files[]") List<MultipartFile> files, Model map) throws IOException {
+    public  void save(@RequestParam("files[]") List<MultipartFile> files, Model map) throws IOException {
         fileNames = new ArrayList<String>();
         rawData = new ArrayList<RawData>(); //тут данные уже прошедшие через парсер
         if(null != files && files.size() > 0) {
@@ -97,7 +97,6 @@ public class IndexController {
                 rawData.add(readDataElem);
             }
         }
-        return "file_upload_success";
     }
 
     @RequestMapping(value = "/Profile", method = RequestMethod.GET)
