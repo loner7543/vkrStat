@@ -4,3 +4,6 @@ ssau-krug.iml
 target/
 alma.iml
 src/main/java/webpack/node_modules
+src\main\frontend\bower_components
+src\main\frontend\node_modules
+src\main\frontend\dist
