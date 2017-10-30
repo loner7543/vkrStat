@@ -1,0 +1,16 @@
+.hideScroll {
+  display: inline-block;
+  vertical-align: top;
+  overflow: hidden;
+  border: solid grey 1px;
+  height: 100px;
+}
+
+.hideScroll select {
+  padding: 10px;
+  margin: -5px -20px -5px -5px;
+}
+
+.dialogButtons{
+  margin-top: 30px;
+}

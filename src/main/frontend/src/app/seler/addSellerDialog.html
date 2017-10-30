@@ -1,0 +1,23 @@
+<div class="content">
+  <h3>Фамилия</h3>
+  <input type="text" placeholder="Введите фамилию" ng-model="sellerFirstName">
+  <h3>Имя</h3>
+  <input type="text" placeholder="Введите имя" ng-model="sellerMiddleName">
+  <h3>Отчество</h3>
+  <input type="text" placeholder="Введите отчество" ng-model="sellerLastName">
+  <h3>Дата рождения</h3>
+  <input type="text" ng-model="birthDate" mask="99.99.9999" placeholder="Введите дату рождения продавца">
+  <h3>Email</h3>
+  <input type="text" placeholder="Введите email" ng-model="sellerEmail">
+  <h3>Адрес доставки</h3>
+  <input type="text" placeholder="Введите адрес доставки" ng-model="sellerDeliveryAddress"><br>
+  <h3>Выберите продажу</h3>
+
+  <!--<select name="buyerSelect" ng-model="selectedBuyer">-->
+    <!--<option ng-repeat="option in salesBuyers"-->
+            <!--ng-value="option.id" class="panel panel-primary">{{option.firstName}}  {{option.lastName}}</option>-->
+  <!--</select><br>-->
+
+  <button class="btn btn-primary">Добавить</button>
+  <button class="btn btn-danger">Отмена</button>
+</div>

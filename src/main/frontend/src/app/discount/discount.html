@@ -1,0 +1,25 @@
+<div>
+  <h3>Скидки</h3>
+  <table class="table table-hover">
+    <thead>
+    <tr>
+      <th>Дата начала</th>
+      <th>Дата окончания</th>
+      <th>Размер скидки, %</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="discount in discounts">
+      <td>{{discount.actualFrom}}</td>
+      <td>{{discount.actualTo}}</td>
+      <td>{{discount.amountDiscount}}</td>
+      <td>
+        <button ng-click="addDiscount()" class="btn btn-primary">Добавить скидку</button>
+      </td>
+      <td><button class="btn btn-primary" ng-click="editDiscount()">Изменить скидку</button></td>
+      <td><button class="btn btn-danger" ng-click="deleteDiscount()">Удалить скидку</button></td>
+    </tr>
+    </tbody>
+  </table>
+  <button ng-click="sendRequest()">Загрузить скидки</button>
+</div>
