@@ -2,7 +2,7 @@
 <html ng-app="frontend">
 <head>
   <meta charset="utf-8">
-  <title>Товар</title>
+  <title>Статистическая обработка измерений кругломера</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width">
   <!--<script type="text/javascript" src="../bower_components/jquery/dist/jquery.min.js"></script>-->
@@ -56,16 +56,17 @@
       </div>
       <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1" style="height: 1px;">
         <ul class="nav navbar-nav">
-          <li ui-sref="products">Товар</li>
-          <li ui-sref="discounts">Скидка</li>
-          <li ui-sref="sales">Продажа</li>
-          <li ui-sref="buyers">Покупатели</li>
-          <li ui-sref="sellers">Продавцы</li>
+          <li ui-sref="statistics">Статистика</li>
+          <li ui-sref="profile">Профиль</li>
+          <li ui-sref="help">Помощь</li>
         </ul>
       </div>
     </div>
   </div>
 </nav>
+<div>
+<p>Названия файлов</p>
+</div>
 
 <div ui-view="index"></div>
 
@@ -96,7 +97,17 @@
 
 <!-- build:js({.tmp/serve,.tmp/partials,src}) scripts/app.js -->
 <!-- inject:js -->
-<!-- js files will be automatically insert here -->
+<script src="app/index.module.js"></script>
+<script src="app/statistics/statistics.controller.js"></script>
+<script src="app/main/main.controller.js"></script>
+<script src="app/profile/profile.controller.js"></script>
+<script src="app/lib/jquery.min.js"></script>
+<script src="app/login/login.controller.js"></script>
+<script src="app/help/help.controller.js"></script>
+<script src="app/index.run.js"></script>
+<script src="app/index.route.js"></script>
+<script src="app/index.constants.js"></script>
+<script src="app/index.config.js"></script>
 <!-- endinject -->
 
 <!-- inject:partials -->

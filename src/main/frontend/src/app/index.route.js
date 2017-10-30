@@ -8,73 +8,57 @@
   /** @ngInject */
   function routerConfig($stateProvider, $urlRouterProvider) {
      $stateProvider
-       .state('products', {
-         url: '/products',
+       .state('statistics', {
+         url: '/statistics',
          views: {
            'index': {
-             templateUrl: 'app/item/item.html',
-             controller: 'ItemController',
+             templateUrl: 'app/statistics/statistics.html',
+             controller: 'StatisticsController',
              controllerAs: 'itemCtrl'
            }
          },
          resolve: {
-           // allProducts: function ($http) {
-           //   return $http({
-           //     method: "POST",
-           //     url: "http://localhost:8080/crudGoods/rest/getProducts",
-           //     params:{}
-           //   });
-           // }
          }
-       })
-       .state('buyers', {
-       url: '/buyers',
+       }) .state('help', {
+       url: '/help',
        views: {
          'index': {
-           templateUrl: 'app/buyer/buyer.html',
-           controller: 'BuyerController',
-           controllerAs: 'buyerCtrl'
+           templateUrl: 'app/help/help.html',
+           controller: 'HelpController',
+           controllerAs: 'helpCtrl'
+         }
+       },
+       resolve: {
+       }
+     })
+       .state('login', {
+         url: '/login',
+         views: {
+           'index': {
+             templateUrl: 'app/login/login.html',
+             controller: 'LoginController',
+             controllerAs: 'loginCtrl'
+           }
+         },
+         resolve: {
+         }
+       })
+       .state('profile', {
+       url: '/profile',
+       views: {
+         'index': {
+           templateUrl: 'app/profile/profile.html',
+           controller: 'ProfileController',
+           controllerAs: 'profileCtrl'
          }
        },
        resolve: {}
-     })
-       .state('discounts', {
-       url: '/discounts',
-       views: {
-         'index': {
-           templateUrl: 'app/discount/discount.html',
-           controller: 'DiscountController',
-           controllerAs: 'discountCtrl'
-         }
-       },
-       resolve: {}
-     })
-       .state('sales', {
-         url: '/sales',
-         views: {
-           'index': {
-             templateUrl: 'app/sale/sale.html',
-             controller: 'SaleController',
-             controllerAs: 'saleCtrl'
-           }
-         },
-         resolve: {}
-       })
-       .state('sellers', {
-         url: '/sellers',
-         views: {
-           'index': {
-             templateUrl: 'app/seler/seller.html',
-             controller: 'SellersController',
-             controllerAs: 'sellerCtrl'
-           }
-         },
-         resolve: {}
-       });
+     });
+
 
     $urlRouterProvider.otherwise(function ($injector, $location) {
       console.log($injector, $location);
-      return "/";
+      return "/login";
     });
   }
 

@@ -1,0 +1,35 @@
+<h3>Статистика</h3>
+<div class="column left-column">
+    <form:form method="post" action="save.html" enctype="multipart/form-data" onsubmit="onSubmit(this)">
+        <input type="file" id="my_file" name="files[]" multiple="multiple">
+        <input type="submit" value="Upload" class="btn btn-primary"/>
+    </form:form>
+    <ul id="fileNamesList">
+    </ul><br>
+    <input type="button" value="Рассчитать статистику" onclick="calculateStatistics()" class="btn btn-primary">
+    <input type="button" value="Рассчет профиля" onclick="onCalculateProfile()" class="btn btn-primary"><br>
+</div>
+<div class="column right-column">
+    <div class="row first-row">
+        <div id="statBlock">
+            <label id="sko">Среднеквадратическое отклонение:</label><br>
+            <label id="psist">Систематическая составляющая:</label><br>
+            <label id="psum">Суммарная погрешность: </label><br>
+            <label id="dov">Доверительный интервал: </label><br>
+            <label id="PinPoint">Погрешность в точке: </label><br>
+            <label id="opt">Ближайший к оптимальному профиль:</label><br>
+            <label id="mediumLabel">Среднее по выборке:</label><br>
+            <label id="kxSqare"></label>
+        </div>
+    </div>
+    <div class="row second-row">
+        <div id="amplitudesHistogram"></div><br>
+        <input type="button" value="Записать амплитуды в файл" class="btn btn-primary">
+        <input type="button" value="Считать из файла" class="btn btn-primary">
+    </div>
+    <div class="row third-row">
+        <div id="int"></div><br>
+        <input type="button" value="Записать высоты в файл" class="btn btn-primary">
+        <input type="button" value="Считать высоты из файла" class="btn btn-primary">
+    </div>
+</div>

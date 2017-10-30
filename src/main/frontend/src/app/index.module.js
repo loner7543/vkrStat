@@ -6,6 +6,10 @@
   .factory("UtilsFunctionsFactory",UtilsFunctionsFactory);
   //модуль + его зависимости + фабрика
 
+  //http://dotansimha.github.io/angularjs-dropdown-multiselect/docs/#/main
+//https://www.youtube.com/watch?v=2tx1B8zXNqo
+//http://stepansuvorov.com/blog/2014/09/angularjs-data-transfer/
+//http://jsfiddle.net/STEVER/9a2sLdy6/
   /** @ngInject */
   function UtilsFunctionsFactory() {
     return{
@@ -40,8 +44,4 @@
   }
 
 
-})();
-//http://dotansimha.github.io/angularjs-dropdown-multiselect/docs/#/main
-//https://www.youtube.com/watch?v=2tx1B8zXNqo
-//http://stepansuvorov.com/blog/2014/09/angularjs-data-transfer/
-//http://jsfiddle.net/STEVER/9a2sLdy6/
+}})();
