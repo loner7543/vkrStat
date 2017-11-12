@@ -21,7 +21,7 @@ public class StatisticsData implements Serializable
     private double valueKxSquare;//величина кси квадрат
     private double levelTovalue;// уровень значимости, если -1,то гепотиза о нормальном законе распределения отклоняется
     private double minLengthBorderc;
-    private double mediumValue;
+    private double mediumValue;// среднее по выборке
 
     public StatisticsData(double point,double avg,int closest,double sko,double[] arrayAmplitudes, ArrayList<Double> bordersFrequency,
                           double minLengthBorderc, double[] relativeFrequency, double valueKxSquare, double levelTovalue,double mediumValue)

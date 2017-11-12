@@ -32,14 +32,6 @@
         <property name="cacheSeconds" value="0"/>
     </bean>
 
-    <!-- Resolves view names to protected .jsp resources within the /WEB-INF/views directory -->
-    <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
-        <property name="exposeContextBeansAsAttributes" value="true"/>
-        <property name="prefix" value="/WEB-INF/pages/"/>
-        <property name="suffix" value=".jsp"/>
-    </beans:bean>
-
     <!--Upload file maxSize = 5 Mb-->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <!--<property name="maxUploadSize" value="5242880" />-->
@@ -48,15 +40,5 @@
 
     <import resource="resources.xml"/>
     <!--<import resource="jasper-views.xml"/>-->
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="org.postgresql.Driver"/>
-        <property name="url" value="jdbc:postgresql://localhost:5432/datadaseName"/>
-        <property name="username" value="postgres"/>
-        <property name="password" value="postgres"/>
-    </bean>
-
-    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-        <property name="dataSource" ref="dataSource"/>
-    </bean>
 
 </beans:beans>

@@ -8,23 +8,20 @@ import model.Data.RawData;
 import model.Data.StatisticsData;
 import model.Exception.FileFormatException;
 import model.Exception.LittleStatisticalDataException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import tools.FileUtils;
 import tools.StreamHelper;
 
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -33,41 +30,15 @@ import java.util.List;
 public class IndexController {
     private static final Logger logger = LoggerFactory.getLogger(IndexController.class);
     private ArrayList<RawData> rawData;
-    private  static List<String> fileNames;
+    private List<String> fileNames;
     private int minBorder;
     private int maxBorder;
-    private boolean mode;
-    private StatisticsData statisticsData;
     private Data data;
     private double[] heights;
 
-    @RequestMapping(method = RequestMethod.GET, value = "/")
-    public String slash(Model model, HttpSession session) {
-        return "redirect:/welcome";
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/welcome")
-    public ModelAndView welcome(Model model, HttpSession session) {
-
-        ModelAndView modelAndView = new ModelAndView("welcome");
-        logger.info("logger work!!!");
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/Statistics", method = RequestMethod.GET)
-    public ModelAndView showStat(){
-        ModelAndView modelAndView = new ModelAndView("statistics");
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/admin", method = RequestMethod.GET)
-    public ModelAndView showAdmin(){
-        ModelAndView modelAndView = new ModelAndView("reactTest");
-        return modelAndView;
-    }
-
     @RequestMapping(value = "/calculate", method = RequestMethod.POST)
-    public @ResponseBody StatisticsData calculateStatistics() {
+    public ResponseEntity   calculateStatistics() {
+        StatisticsData statisticsData = null;
         if (rawData != null && !rawData.isEmpty()) {
             ConsiderStatistics considerStatistics = new ConsiderStatistics();
             try {
@@ -76,11 +47,11 @@ public class IndexController {
                 e.printStackTrace();
             }
         }
-        return statisticsData;
+        return new ResponseEntity<>(statisticsData, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public  void save(@RequestParam("files[]") List<MultipartFile> files, Model map) throws IOException {
+    public  ResponseEntity save(@RequestParam(value = "file") List<CommonsMultipartFile> files) throws IOException {
         fileNames = new ArrayList<String>();
         rawData = new ArrayList<RawData>(); //тут данные уже прошедшие через парсер
         if(null != files && files.size() > 0) {
@@ -97,77 +68,81 @@ public class IndexController {
                 rawData.add(readDataElem);
             }
         }
-    }
-
-    @RequestMapping(value = "/Profile", method = RequestMethod.GET)
-    public ModelAndView showProfile(){
-        ModelAndView modelAndView = new ModelAndView("profile");
-        return modelAndView;
+        return new ResponseEntity(fileNames,HttpStatus.OK);
     }
 
     @RequestMapping(value = "/Help", method = RequestMethod.GET)
-    public ModelAndView showHelpPage(){
-        ModelAndView modelAndView = new ModelAndView("help");
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/calculateProfile", method = RequestMethod.POST,consumes = "application/json")
-    public @ResponseBody RawData calculateProfileFromFile(@RequestBody String m){
-        JSONObject object = new JSONObject(m);
-        String jsonStr = "";
-        if (fileNames!=null||rawData.size()>0){
-            String fileName = object.getString("fileName");
-            List<RawData> data = StreamHelper.getRawDataByFileName(fileName,rawData);
-            return data.get(0);
+    public ResponseEntity  showHelpPage(){
+        InputStream inputStream=null;
+        RawData readDataElem = null;
+        rawData = new ArrayList<RawData>(); //тут данные уже прошедшие через парсер
+        fileNames = new ArrayList<String>();
+        String s= System.getProperty("user.dir");
+        String path = s+"\\datasets";
+        File folder = new File(path);
+        for (final File fileEntry : folder.listFiles()) {
+            try {
+                inputStream = new FileInputStream (fileEntry);
+                fileNames.add(fileEntry.getName());
+                readDataElem = ReaderRawData.readData(fileEntry.getName(),inputStream);
+                rawData.add(readDataElem);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (FileFormatException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        return null;
+        return new ResponseEntity(fileNames,HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/calculateProfile", method = RequestMethod.POST)
+    public ResponseEntity  calculateProfileFromFile(@RequestParam(value = RawData.FILENAME) String fileName){
+        if (fileNames!=null||rawData.size()>0){
+            List<RawData> data = StreamHelper.getRawDataByFileName(fileName,rawData);
+            return new ResponseEntity(data.get(0),HttpStatus.OK);
+        }
+        return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);//todo stream api bug
 
     }
 
-    @RequestMapping(value = "/calculateCluglogramme", method = RequestMethod.POST,consumes = "application/json")
-    public ResponseEntity<String> calculateCruglogramme(@RequestBody String m){
-        JSONObject jsonObject = new JSONObject(m);
-        String jsonStr = "";
-        String fileName = "BEM_120.DAT";// todo захардкодил пока
+    @RequestMapping(value = "/calculateCluglogramme", method = RequestMethod.POST)
+    public ResponseEntity calculateCruglogramme(@RequestParam String fileName,
+                                                @RequestParam String mode){
+        boolean type;
         RawData elem = StreamHelper.getRawDataByFileName(fileName,rawData).get(0);
-        String jmode = jsonObject.getString("mode");
-        if (jmode.equals("grann")){// гранность
-            mode = false;
+        if (mode.equals("grann")){// гранность
+            type = false;
             minBorder=16;
             maxBorder=150;
         }
         else {
-            mode=true;// волнистость
+            type=true;// волнистость
             minBorder=0;
             maxBorder=15;
         }
-        Converter  converter =new Converter(elem,mode);
-        data = converter.createData(mode,minBorder,maxBorder,1);//1- номер сечения. Спросить откуда брать сечение
+        Converter  converter =new Converter(elem,type);
+        data = converter.createData(type,minBorder,maxBorder,1);//1- номер сечения. Спросить откуда брать сечение
         heights=data.getH();
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            jsonStr = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(heights);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(jsonStr);
+        return new  ResponseEntity(heights,HttpStatus.OK);
     }
 
     @RequestMapping(value = "/uploadAmplitudes", method = RequestMethod.GET)
-    public void writeAmplitudesToFile() throws IOException {
-        if (statisticsData!=null){
+    public ResponseEntity writeAmplitudesToFile() throws IOException {
             int i = 1;
+            StatisticsData statisticsData=null;
             List<String> amplitudes = new LinkedList<>();
             for (double amplitude:statisticsData.getAmplitudes()){
                 amplitudes.add(String.valueOf(i).concat("  ").concat(String.valueOf(amplitude)));
                 i++;
             }
             FileUtils.writeFile("amplitudes.txt",amplitudes);
-        }
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/uploadCruglogramme", method = RequestMethod.GET)
-    public void writeProfile() throws IOException {
+    public ResponseEntity writeProfile() throws IOException {
         if (heights!=null){
             int i = 1;
             List<String> outH = new LinkedList<>();
@@ -176,6 +151,8 @@ public class IndexController {
                 i++;
             }
             FileUtils.writeFile("cruglogramme.txt",outH);
+            return new ResponseEntity(HttpStatus.OK);
         }
+        return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

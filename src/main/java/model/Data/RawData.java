@@ -1,7 +1,14 @@
 
 package model.Data;
+
+import javax.xml.bind.annotation.XmlTransient;
+
 public class RawData
 {
+    @XmlTransient
+    public static final String FILENAME="fileName";
+
+
     private String fileName;
     private double surfaceRadius;               //радиус фотоприемника LFP
     private double emitterYOffset;              //смещение осветителя Y0
